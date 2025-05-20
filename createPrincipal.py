@@ -13,7 +13,7 @@ def create_user(usern, passw, realm):
     ct = datetime.datetime.now()
     valid_until = ct + relativedelta(years=1)
     with open('database.json', 'a') as f:
-        f.write(f'{{"username": "{usern}", "secret": "{secret.hex()}, "created": {ct}, "valid-until": {valid_until}"}}\n')
+        f.write(f'{{"username": "{usern}", "secret": "{secret.hex()}", "created": {ct}, "valid-until": {valid_until}}}\n')
 
 def main():
     print("Creating a principal is simple:D")
