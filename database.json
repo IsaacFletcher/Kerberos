@@ -1,1 +1,20 @@
-{"username": "admin", "secret": "19399a4e43d4f6398386dedf2958e09a864528204a5d045a980ec5de612033ec", "created": "2025-05-20 18:17:28.540244", "valid-until": "2026-05-20 18:17:28.540244"}
+[
+  {
+    "username": "admin",
+    "secret": "19399a4e43d4f6398386dedf2958e09a864528204a5d045a980ec5de612033ec",
+    "created": "2025-05-21T16:50:32.489715",
+    "valid-until": "2026-05-21T16:50:32.489715"
+  },
+  {
+    "username": "administrator",
+    "secret": "c0e100f3a93e435008f1c6a67b0a2607ff9ee7bad5598a919513368bba21435a",
+    "created": "2025-05-21T16:50:55.126652",
+    "valid-until": "2026-05-21T16:50:55.126652"
+  },
+  {
+    "username": "admi",
+    "secret": "c6dfc252c0254dd0a741094ea12f10ca30faa6324907eaefdea155c676b00809",
+    "created": "2025-05-21T16:52:16.125168",
+    "valid-until": "2026-05-21T16:52:16.125168"
+  }
+]
