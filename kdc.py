@@ -14,6 +14,8 @@ tgs_session_key = os.urandom(32)
 service_session_key = os.urandom(32)
 
 
+def encrypt_ab(client, tgs):
+    # TODO
 def get_user_secretkey(username):
     if os.path.exists("database.json"):
         with open("database.json", 'r') as j:
@@ -22,11 +24,31 @@ def get_user_secretkey(username):
                 if user['username'] == username:
                     return user['secret']
             else:
-                print("[-] User not found :(")            
+                print("[-] User not found :(")
     else:
         print("[-] The database does not exist...")
 
-def generate_TGT_message() # todo
+def generate_TGT_message(username, client_ip):
+    # we need two messages
+    # first is the one we will encrypt with clients secret key and put out generated TGS SK in
+    # the second is the one designated for the TGS, which we will encrypt with TGS's secret key.
+    # The first message (we will call it a from now on) contains the following.
+    client_enc = {
+            "TGS-Principal-Name": TGS_NAME,
+            "Timestamp": datetime.datetime.now(),
+            "Lifetime": 1,
+            "TGS-SK": tgs_session_key
+            }
+    # Next the second message (we will call it b) contains
+    tgs_enc = {
+            "username": username,
+            "TGS-Principal-Name": TGS_NAME,
+            "Timestamp": datetime.datetime.now(),
+            "UserIP": client_ip,
+            "Lifetime": 1,
+            "TGS-SK": tgs_session_key
+            }
+
 def socket_communication():
     while True:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
