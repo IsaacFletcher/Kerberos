@@ -2,6 +2,7 @@ import socket
 import datetime
 import json
 import os
+from Crypto.Cipher import AES
 
 host = '127.0.0.1'
 port = 6969
@@ -14,15 +15,15 @@ tgs_session_key = os.urandom(32)
 service_session_key = os.urandom(32)
 
 
-def encrypt_ab(client, tgs):
-    # TODO
+
 def get_user_secretkey(username):
     if os.path.exists("database.json"):
         with open("database.json", 'r') as j:
             users = json.load(j)
             for user in users:
                 if user['username'] == username:
-                    return user['secret']
+                    client_sec = user['secret']
+                    return client_sec
             else:
                 print("[-] User not found :(")
     else:
@@ -49,6 +50,10 @@ def generate_TGT_message(username, client_ip):
             "TGS-SK": tgs_session_key
             }
 
+def encrypt_ab(client_enc, client_sec, tgs_enc, tgs):
+    key_c = client_sec.encode('utf-8')
+    data_c = client_enc.encode('utf-8')
+    cipher = AES.new(key_c, AES.MODE_EAX)
 def socket_communication():
     while True:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
