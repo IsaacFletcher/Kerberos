@@ -3,13 +3,15 @@ import datetime
 import json
 import os
 from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad,unpad
+import base64
 
 host = '127.0.0.1'
 port = 6969
 realm = 'prototype.kdc'
 
 TGS_NAME = f'krbtgs/{realm}@{realm}'
-
+iv = 'testinitvectorAB'
 
 tgs_session_key = os.urandom(32)
 service_session_key = os.urandom(32)
@@ -50,10 +52,13 @@ def generate_TGT_message(username, client_ip):
             "TGS-SK": tgs_session_key
             }
 
-def encrypt_ab(client_enc, client_sec, tgs_enc, tgs):
+def encrypt_ab(client_enc, client_sec, tgs_enc, tgs, iv):
     key_c = client_sec.encode('utf-8')
     data_c = client_enc.encode('utf-8')
-    cipher = AES.new(key_c, AES.MODE_EAX)
+    data = pad(data_c.encode(),16)
+    cipher = AES.new(key_c, AES.MODE_CBC, iv)
+    return base64.b64encode(cipher.encrypt(data))
+
 def socket_communication():
     while True:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -71,4 +76,3 @@ def socket_communication():
                     parsed = json.loads(recieved)
                     username = parsed['username']
                     get_user_secretkey(username)
-
